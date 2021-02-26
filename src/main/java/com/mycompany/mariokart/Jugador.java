@@ -18,11 +18,12 @@ public class Jugador {
     private String nombre;
     private String nickname;
     private int edad;
-    private Carro [] carrosDelJugador = new Carro[4];
+    private Carro [] carrosDelJugador = new Carro[5];
     private double oro;
     private int gemas;
     private int partidasGanadas;
     private int PartidasJugadas;
+    
 
     
     public Jugador() {

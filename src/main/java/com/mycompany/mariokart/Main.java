@@ -18,6 +18,7 @@ public class Main {
     static private Carro carro = new Carro();
     static private Garage garage = new Garage();
     static private Ruleta ruleta = new Ruleta();
+    static private Utilidad utilidad = new Utilidad();
     static Scanner scanner = new Scanner(System.in);
     
     /**
@@ -41,8 +42,16 @@ public class Main {
                 jugador.setNombre(scanner.nextLine());
                 System.out.println("Ingrese su Nickname: ");
                 jugador.setNickname(scanner.nextLine());
-                System.out.println("Ingrese su Edad: ");
-                jugador.setEdad(Integer.valueOf(scanner.nextLine()));
+                do {
+                    System.out.println("Ingrese su Edad: ");
+                    String edad = scanner.nextLine();
+                    if(utilidad.verificarSiEsNumero(edad)){
+                        jugador.setEdad(Integer.valueOf(edad));
+                        break;
+                    }else{
+                        System.out.println("Ingrese una edad Valida. ");
+                    }                     
+                } while (true);
                 Main.elegirCarroInicial();
                 Main.mostrarMenuPrincipal();
                 seleccion = "3";
@@ -150,11 +159,9 @@ public class Main {
             }else if(seleccionMenuGarage.equalsIgnoreCase("5")){
                 Main.mostrarMenuCambiarColor();
             }else if(seleccionMenuGarage.equalsIgnoreCase("6")){
-                
+                garage.comprarCarro(jugador);
             }else if(seleccionMenuGarage.equalsIgnoreCase("7")){
-                for (int i = 0; i < jugador.getCarrosDelJugador().length; i++) {
-                    carro.mostrarDatosDelCarro(jugador.getCarrosDelJugador()[i]);
-                }
+                Main.mostrarMenuCambiarDeCarro();
             }else if(seleccionMenuGarage.equalsIgnoreCase("8")){
                 System.out.println("Salio del Menu Garage");
                 
@@ -261,5 +268,20 @@ public class Main {
                 System.out.println("Seleccione Una opcion Valida");
             }
         } while (!seleccionMenuGasolina.equalsIgnoreCase("3"));
+    }
+    
+    public static void mostrarMenuCambiarDeCarro(){
+        String seleccionMenuCambiarCarro;
+        boolean salir = true;
+        do {
+            for (int i = 0; i < jugador.getCarrosDelJugador().length; i++) {
+                    carro.mostrarDatosDelCarro(jugador.getCarrosDelJugador()[i]);
+                }
+        System.out.println("Seleccione un Carro. ");
+        seleccionMenuCambiarCarro = scanner.nextLine();
+        salir = garage.cambiarDeCarro(jugador, garage, seleccionMenuCambiarCarro);
+        } while (salir);
+        
+        
     }
 }

@@ -31,10 +31,12 @@ public class Garage {
     
     public static final double COSTO_NUEVO_COLOR = 20; // se compra con oro
     
+    public static final double COSTO_NUEVO_CARRO = 100; // se compra con oro
+    
     public static final Carro carroInicial1 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"negro");
     public static final Carro carroInicial2 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"Blanco");
     public static final Carro carroInicial3 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"Gris");
-    public static final Carro carroNuevo = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,1,"amarillo");
+    public static final Carro CARRO_NUEVO = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"amarillo");
     
     Carro[] carrosIniciales = {carroInicial1,carroInicial2,carroInicial3};
     
@@ -51,7 +53,7 @@ public class Garage {
         
         
         if(seleccionMenuMotor.equalsIgnoreCase("1")){
-            tipoDeMejoraMotor = MOTOR_MEDIO;
+            tipoDeMejoraMotor = MOTOR_BASICO;
             costoDelMotor = COSTO_MOTOR_BASICO;
             comproMotor = "Compro el Motor Basico. ";
         } else if(seleccionMenuMotor.equalsIgnoreCase("2")){
@@ -137,5 +139,47 @@ public class Garage {
                 System.out.println(comproColor);
             }
         } 
+    }
+    
+    public int verificarEspacioEnGarage(Jugador jugador){
+        int espacioVacio = -1;
+        for (int i = 0; i < jugador.getCarrosDelJugador().length; i++) {
+            if(jugador.getCarrosDelJugador()[i] == null){
+                espacioVacio = i;
+                break;
+            }       
+        }
+        return espacioVacio;
+    }
+    
+    public void comprarCarro(Jugador jugador){
+        if(verificarEspacioEnGarage(jugador) == -1){
+            System.out.println("No tiene espacio para agregar otro Carro. ");
+        }else {
+            if(jugador.getOro() >= COSTO_NUEVO_CARRO){
+            jugador.getCarrosDelJugador()[verificarEspacioEnGarage(jugador)] = CARRO_NUEVO;
+            jugador.setOro(jugador.getOro() - COSTO_NUEVO_CARRO);
+            } else
+                System.out.println("No tiene suficiente dinero para comprar un Carro Nuevo. ");
+        }
+    } 
+    
+    public boolean cambiarDeCarro(Jugador jugador, Garage garage, String pocionEnGarage){
+        if (pocionEnGarage.equals("1") || 
+            pocionEnGarage.equals("2") ||
+            pocionEnGarage.equals("3") ||
+            pocionEnGarage.equals("4") ||
+            pocionEnGarage.equals("5")){
+            if(jugador.getCarrosDelJugador()[Integer.valueOf(pocionEnGarage)-1] == null){
+                System.out.println("No hay carro en este espacio. ");
+                return true;
+            } else{
+                garage.seleccionGarage = Integer.valueOf(pocionEnGarage) -1;
+                return false;
+            }
+        } else{
+            System.out.println("Ingrese una posicion valida. ");
+            return true;
+        }
     }
 }
