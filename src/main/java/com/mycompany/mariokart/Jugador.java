@@ -23,8 +23,9 @@ public class Jugador {
     private int gemas;
     private int partidasGanadas;
     private int PartidasJugadas;
-    
-
+    private Garage garage = new Garage();
+    private Ruleta ruleta = new Ruleta();
+    private Utilidad utilidad;
     
     public Jugador() {
         this.nombre = nombre;
@@ -34,7 +35,10 @@ public class Jugador {
         this.oro = ORO_INICIAL;
         this.gemas = GEMAS_INICIALES;
         this.partidasGanadas = 0;
-        this.PartidasJugadas = 0; 
+        this.PartidasJugadas = 0;
+        this.garage = garage;
+        this.ruleta = ruleta;
+        this.utilidad = utilidad;
     }
         
     public void mostrarDatosJugador(Jugador jugador){
@@ -93,5 +97,16 @@ public class Jugador {
         this.gemas = gemas;
     }
 
+    public Garage getGarage() {
+        return garage;
+    }   
+
+    public Ruleta getRuleta() {
+        return ruleta;
+    }
+
+    public Utilidad getUtilidad() {
+        return utilidad;
+    }
     
 }

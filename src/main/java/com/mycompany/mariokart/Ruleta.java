@@ -20,7 +20,7 @@ public class Ruleta {
         this.gemas = 0;
     }
     
-    public void girarRuleta(){
+    public void girarRuleta(Jugador jugador){
         oro = 0;
         gemas = 0;
         
@@ -45,6 +45,9 @@ public class Ruleta {
             oro = oro + 10;
             gemas = 0;
         }
+        
+        jugador.setOro(jugador.getOro() + jugador.getRuleta().getOro());
+        jugador.setGemas(jugador.getGemas()+ jugador.getRuleta().getGemas());
     }
 
     public double getOro() {
