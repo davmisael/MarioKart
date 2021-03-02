@@ -5,17 +5,20 @@
  */
 package com.mycompany.mariokart;
 import com.mycompany.mariokart.Carro;
+import com.mycompany.mariokart.Garage;
+import com.mycompany.mariokart.Ruleta;
+import com.mycompany.mariokart.Utilidad;
 
 /**
  *
  * @author David
  */
-public class Jugador {
+public class Jugador extends Persona{
     
     public static final double ORO_INICIAL = 50;
     public static final int GEMAS_INICIALES = 30;
     
-    private String nombre;
+
     private String nickname;
     private int edad;
     private Carro [] carrosDelJugador = new Carro[5];
@@ -25,7 +28,7 @@ public class Jugador {
     private int PartidasJugadas;
     private Garage garage = new Garage();
     private Ruleta ruleta = new Ruleta();
-    private Utilidad utilidad;
+    private Utilidad utilidad = new Utilidad();
     
     public Jugador() {
         this.nombre = nombre;
@@ -39,23 +42,17 @@ public class Jugador {
         this.garage = garage;
         this.ruleta = ruleta;
         this.utilidad = utilidad;
+        this.posicionEnPodio = 0;
     }
         
     public void mostrarDatosJugador(Jugador jugador){
-        System.out.println("\n\n" + "Nombre: " + this.nombre);
-        System.out.println("Nickname: " + this.nickname);
-        System.out.println("Edad: " + this.edad);
+        System.out.println("\n\n" + "Nombre: " + jugador.getNombre() + "\t" 
+                           + "Nickname: " + jugador.getNickname() + "\t"
+                           + "Edad: " + jugador.getEdad());
+                                   
         System.out.println("Cantidad de oro: " + this.oro);
         System.out.println("Cantidad de gemas: " + this.gemas);
     }   
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public int getEdad() {
         return edad;

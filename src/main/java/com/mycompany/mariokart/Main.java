@@ -10,8 +10,7 @@ import java.util.Scanner;
  * @author David
  */
 public class Main {
-    static private Jugador jugador = new Jugador();
-    static private Carro carro = new Carro();
+//    static private Jugador jugador = new Jugador();
     static Scanner scanner = new Scanner(System.in);
     
     /**
@@ -19,10 +18,12 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-               
+        Jugador jugador = new Jugador();
+        
         String seleccion;
+        
         System.out.println("--Bienvenido--\n");
-        jugador.getUtilidad().mostrarMarioKart();
+        //jugador.getUtilidad().mostrarMarioKart();
         
         do {
             System.out.println("\n¿Acepta los termino y condiciones del juego?");
@@ -47,7 +48,7 @@ public class Main {
                     }                     
                 } while (true);
                 jugador.getGarage().elegirCarroInicial(jugador);
-                Main.mostrarMenuPrincipal();
+                Main.mostrarMenuPrincipal(jugador);
                 seleccion = "3";
             }else if(seleccion.equalsIgnoreCase("2")){
                 System.out.println("\nSolo acepte para empezar el juego\n");
@@ -58,8 +59,11 @@ public class Main {
         } while (!seleccion.equalsIgnoreCase("3"));
     }
 
-    public static void mostrarMenuPrincipal(){
+    public static void mostrarMenuPrincipal(Jugador jugador){
+        Competencia competencia = new Competencia();
+        
         String seleccionMenu;
+        
         do {
             jugador.mostrarDatosJugador(jugador);
             System.out.println("\nBienvenidos al menu Principal");
@@ -72,13 +76,14 @@ public class Main {
             seleccionMenu = scanner.nextLine();
             
             if(seleccionMenu.equalsIgnoreCase("1")){
-                
+                System.out.println(competencia.getRivales()[0].getNombre());
+                competencia.getRivales()[0].getCarro().mostrarDatosDelCarro(competencia.getRivales()[0].getCarro());
             }else if(seleccionMenu.equalsIgnoreCase("2")){
-                jugador.getRuleta().girarRuleta(jugador);
+                jugador.getRuleta().mostrarMenuRuleta(jugador);
             }else if(seleccionMenu.equalsIgnoreCase("3")){
-                Main.mostrarMenuGarage();
+                jugador.getGarage().mostrarMenuGarage(jugador);
             }else if(seleccionMenu.equalsIgnoreCase("4")){
-                
+                competencia.getPista()[0].mostrarMenuPistas(competencia);
             }else if(seleccionMenu.equalsIgnoreCase("5")){
                 
             }else if(seleccionMenu.equalsIgnoreCase("6")){
@@ -86,43 +91,5 @@ public class Main {
                 
             }
         } while (!seleccionMenu.equalsIgnoreCase("6"));
-    }
-    
-    public static  void mostrarMenuGarage(){
-        String seleccionMenuGarage;
-        
-        do {
-            jugador.mostrarDatosJugador(jugador);
-            System.out.println("\nBienvenidos al menu de tu Garage: ");
-            System.out.println("1. Mostrar caracteristicas del carro actual: ");
-            System.out.println("2. Mejorar la potencia del motor: ");
-            System.out.println("3. Mejorar la calidad de las Llantas: ");
-            System.out.println("4. llenar el tanque de gasolina: ");
-            System.out.println("5. Cambiar el color del Vehículo: ");
-            System.out.println("6. Comprar otro Vehículo: ");
-            System.out.println("7. Cambiar de Vehiculo: ");
-            System.out.println("8. Regresar al menu principal: ");
-            seleccionMenuGarage = scanner.nextLine();
-            
-            if(seleccionMenuGarage.equalsIgnoreCase("1")){
-                jugador.getCarrosDelJugador()[0].mostrarDatosDelCarro(jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage]);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("2")){
-                jugador.getGarage().mostrarMenuMejorarMotor(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("3")){
-                jugador.getGarage().mostrarMenuMejorarLlantas(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("4")){
-                jugador.getGarage().mostrarMenuAgregarGasolina(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("5")){
-                jugador.getGarage().mostrarMenuCambiarColor(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("6")){
-                jugador.getGarage().comprarCarro(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("7")){
-                jugador.getGarage().mostrarMenuCambiarDeCarro(jugador);
-            }else if(seleccionMenuGarage.equalsIgnoreCase("8")){
-                System.out.println("Salio del Menu Garage");
-                
-            }
-        } while (!seleccionMenuGarage.equalsIgnoreCase("8"));
-        
     }
 }

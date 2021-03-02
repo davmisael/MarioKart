@@ -44,12 +44,12 @@ public class Carro {
     
     public void mostrarDatosDelCarro(Carro carro){
         if (carro != null){
-            System.out.println("------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
             carro.mostrarDatosDelMotor(carro.getMotor());
             carro.mostrarDatosDeLasLlantas(carro.getLlantas());
             System.out.println("nivel de gasolina: " + carro.getGasolina());
             System.out.println("Color del Auto: " + carro.getColor());
-            System.out.println("------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
         } else  
             System.out.println(" Vacio ");
     }

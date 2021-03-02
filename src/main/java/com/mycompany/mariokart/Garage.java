@@ -14,7 +14,9 @@ import static com.mycompany.mariokart.Carro.LLANTAS_GENERICAS;
 import static com.mycompany.mariokart.Carro.LLANTAS_CALIDAD_ALTA;
 import static com.mycompany.mariokart.Carro.LLANTAS_CALIDAD_BAJA;
 import static com.mycompany.mariokart.Carro.LLANTAS_CALIDAD_MEDIA;
+
 import static com.mycompany.mariokart.Carro.TANQUE_LLENO;
+import static com.mycompany.mariokart.Main.scanner;
 
 import java.util.Scanner;
 
@@ -38,11 +40,17 @@ public class Garage {
     
     public static final double COSTO_NUEVO_CARRO = 100; // se compra con oro
     
-    public static final Carro CARRO_INICIAL_1 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"negro");
-    public static final Carro CARRO_INICIAL_2 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"Blanco");
-    public static final Carro CARRO_INICIAL_3 = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"Gris");
+    /**
+     *
+     */
+    public static final Carro CARRO_INICIAL_1 = new Carro(MOTOR_GENERICO, LLANTAS_GENERICAS, TANQUE_LLENO, "negro");
+    public static final Carro CARRO_INICIAL_2 = new Carro(MOTOR_GENERICO, LLANTAS_GENERICAS, TANQUE_LLENO, "Blanco");
+    public static final Carro CARRO_INICIAL_3 = new Carro(MOTOR_GENERICO, LLANTAS_GENERICAS, TANQUE_LLENO, "Gris");
     
-    public static final Carro CARRO_NUEVO = new Carro(MOTOR_GENERICO,LLANTAS_GENERICAS,100,"amarillo");
+    public static final Carro CARRO_NUEVO = new Carro(MOTOR_GENERICO, LLANTAS_GENERICAS, TANQUE_LLENO, "amarillo");
+    
+    public static final Carro CARRO_RIVAL_1 = new Carro(MOTOR_BASICO,LLANTAS_CALIDAD_BAJA,TANQUE_LLENO,"Rojo");
+    
     
     public static final Carro[] CARROS_INICIALES = {CARRO_INICIAL_1,CARRO_INICIAL_2,CARRO_INICIAL_3};
     
@@ -54,13 +62,50 @@ public class Garage {
         this.seleccionGarage = 0;
     }
     
-    
+    public void mostrarMenuGarage(Jugador jugador){
+        String seleccionMenuGarage;
+        
+        do {
+            jugador.mostrarDatosJugador(jugador);
+            System.out.println("\nBienvenidos al menu de tu Garage: ");
+            System.out.println("1. Mostrar caracteristicas del carro actual: ");
+            System.out.println("2. Mejorar la potencia del motor: ");
+            System.out.println("3. Mejorar la calidad de las Llantas: ");
+            System.out.println("4. llenar el tanque de gasolina: ");
+            System.out.println("5. Cambiar el color del Vehículo: ");
+            System.out.println("6. Comprar otro Vehículo: ");
+            System.out.println("7. Cambiar de Vehiculo: ");
+            System.out.println("8. Regresar al menu principal: ");
+            seleccionMenuGarage = scanner.nextLine();
+            
+            if(seleccionMenuGarage.equalsIgnoreCase("1")){
+                jugador.getCarrosDelJugador()[0].mostrarDatosDelCarro(jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage]);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("2")){
+                jugador.getGarage().mostrarMenuMejorarMotor(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("3")){
+                jugador.getGarage().mostrarMenuMejorarLlantas(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("4")){
+                jugador.getGarage().mostrarMenuAgregarGasolina(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("5")){
+                jugador.getGarage().mostrarMenuCambiarColor(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("6")){
+                jugador.getGarage().comprarCarro(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("7")){
+                jugador.getGarage().mostrarMenuCambiarDeCarro(jugador);
+            }else if(seleccionMenuGarage.equalsIgnoreCase("8")){
+                System.out.println("Salio del Menu Garage");
+                
+            }
+        } while (!seleccionMenuGarage.equalsIgnoreCase("8"));
+        
+    }
     public void elegirCarroInicial(Jugador jugador){
         String seleccionCarro;
         do {
             System.out.println("\n\nEstos son los carros Iniciales que puedes elegir: ");
             for (int i = 0; i < CARROS_INICIALES.length; i++) {
                 System.out.println("Opcion " + (i+1));
+                jugador.getCarrosDelJugador()[0] = new Carro();
                 jugador.getCarrosDelJugador()[0].mostrarDatosDelCarro(CARROS_INICIALES[i]);
             }
             System.out.println("Elija el numero que corresponde al Carro que quiere seleccionar");
@@ -74,7 +119,7 @@ public class Garage {
                 jugador.setCarrosDelJugador(carroInicialOpcion1);
                 break;
             } else if (seleccionCarro.equalsIgnoreCase("3")){
-                Carro[] carroInicialOpcion1 = {CARRO_INICIAL_1, null, null, null, null};
+                Carro[] carroInicialOpcion1 = {CARRO_INICIAL_3, null, null, null, null};
                 jugador.setCarrosDelJugador(carroInicialOpcion1);
                 break;
             } else{
@@ -212,7 +257,9 @@ public class Garage {
     
     public void mostrarMenuAgregarGasolina(Jugador jugador){
         String seleccionMenuGasolina;
-        double costoParaLlenarTanque = ((TANQUE_LLENO - jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina()) * COSTO_GALON_DE_GASOLINA);
+        double costoParaLlenarTanque = ((TANQUE_LLENO - 
+                                        jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina()) 
+                                        * COSTO_GALON_DE_GASOLINA);
         int cantidadDeGalones;
         do {
             jugador.mostrarDatosJugador(jugador);
@@ -224,7 +271,7 @@ public class Garage {
             System.out.println("1. Si quieres llenar el tanque de Gasolina");
             System.out.println("2. Si quieres ponerle cierta canitidad de galones de Gasolina");
             System.out.println("3. Regresaar al Menu Garage. ");
-            System.out.println("Seleccione ");
+            System.out.println("Escriba el numero, para realizar esa accion. \n");
             seleccionMenuGasolina = scanner.nextLine();
             
             if(seleccionMenuGasolina.equalsIgnoreCase("1")){
@@ -242,9 +289,30 @@ public class Garage {
                 if(jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina() == TANQUE_LLENO){
                     System.out.println("El tanque del Carro esta lleno ");
                 }else {
-                    System.out.println("Ingresa cuantos galoes le quieres agregar a tu auto");
-                    cantidadDeGalones = Integer.valueOf(scanner.nextLine());
-                    jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].setGasolina(cantidadDeGalones);
+                    do {
+                        System.out.println("El auto seleccionado tien " 
+                               + jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina()
+                               + " Galones");
+                            System.out.println("Ingresa cuantos galoes le quieres agregar a tu auto");
+                        do {
+                            String entrada = scanner.nextLine();
+                            if(jugador.getUtilidad().verificarSiEsNumero(entrada)){
+                                cantidadDeGalones = Integer.valueOf(entrada);
+                                break;
+                            }else{
+                                System.out.println("Ingrese una cantidad de Galones valida. ");
+                            }                     
+                            } while (true);
+                        if (jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina() + 
+                            cantidadDeGalones > 100){
+                            System.out.println("No puede llenar el tanque con mas de 100 Galones. ");                            
+                        }else {
+                            jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].setGasolina(
+                            jugador.getCarrosDelJugador()[jugador.getGarage().seleccionGarage].getGasolina() 
+                            + cantidadDeGalones);
+                            break;
+                        }
+                    } while (true);
                 }
             }else if(seleccionMenuGasolina.equalsIgnoreCase("3")){
                 System.out.println("---------- Salio del Menu Agregar Gasolina ----------");
@@ -281,8 +349,6 @@ public class Garage {
         } 
     }
     
-    
-    
     public int verificarEspacioEnGarage(Jugador jugador){
         int espacioVacio = -1;
         for (int i = 0; i < jugador.getCarrosDelJugador().length; i++) {
@@ -311,8 +377,9 @@ public class Garage {
         boolean salir = true;
         do {
             for (int i = 0; i < jugador.getCarrosDelJugador().length; i++) {
-                    jugador.getCarrosDelJugador()[0].mostrarDatosDelCarro(jugador.getCarrosDelJugador()[i]);
-                }
+                System.out.println("");
+                jugador.getCarrosDelJugador()[0].mostrarDatosDelCarro(jugador.getCarrosDelJugador()[i]);
+            }
         System.out.println("Seleccione un Carro. ");
         seleccionMenuCambiarCarro = scanner.nextLine();
         
