@@ -40,6 +40,10 @@ public class Competencia {
         
     }
     
+    public void mostrarMenuCompetencia(){
+        
+    }
+    
     public Rival[] getRivales() {
         return rivales;
     }
